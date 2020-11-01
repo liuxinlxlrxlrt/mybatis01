@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.sxt.domain.mapper.UserMapper">
+
+    <!--分页查询1-->
+    <select id="queryForPage1" resultType="User">
+
+        select * from sys_user limit #{param1},#{param2}
+
+    </select>
+
+    <!--分页查询2-->
+    <select id="queryForPage2" resultType="User">
+
+        select * from sys_user limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--分页查询3-->
+    <select id="queryForPage3" resultType="User">
+
+        select * from sys_user
+
+    </select>
+
+    <!--分页查询4:查询总条数-->
+    <select id="queryCount" resultType="java.lang.Integer">
+
+        select count(*) from sys_user
+
+    </select>
+
+    <!--分页查询5:实战分页-->
+    <select id="queryForPage5" resultType="User">
+
+        select * from sys_user limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--分页查询6:分页+模糊查询-->
+    <select id="queryForPage6" resultType="User">
+
+        select * from sys_user
+        where name like "%"#{keywords}"%" or address like "%"#{keywords}"%"
+        limit #{startIndex},#{pageSize}
+
+    </select>
+
+    <!--分页查询4:查询总条数-->
+    <select id="queryCount6" resultType="java.lang.Integer" parameterType="java.lang.String">
+
+        select count(*) from sys_user
+        where name like "%"#{value}"%" or address like "%"#{value}"%"
+
+    </select>
+
+</mapper>

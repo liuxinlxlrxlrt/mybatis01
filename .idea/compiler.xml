@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="02_mybatisplus_springboot" />
+        <module name="_01_mybatisplus_spring" />
+        <module name="modifiymybatis01" />
+        <module name="mybatis_ali_page" />
+        <module name="mybatis_annotation" />
+        <module name="mybatis_generator" />
+        <module name="mybatis_page" />
+        <module name="mybatis_sql_mapperxml" />
+        <module name="mybatisquerylike" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="02_mybatisplus_springboot" options="-parameters" />
+      <module name="_01_mybatisplus_spring" options="-parameters" />
+      <module name="modifiymybatis01" options="-parameters" />
+      <module name="mybatis_ali_page" options="-parameters" />
+      <module name="mybatis_annotation" options="-parameters" />
+      <module name="mybatis_generator" options="-parameters" />
+      <module name="mybatis_page" options="-parameters" />
+      <module name="mybatis_sql_mapperxml" options="-parameters" />
+      <module name="mybatisquerylike" options="-parameters" />
+    </option>
+  </component>
+</project>

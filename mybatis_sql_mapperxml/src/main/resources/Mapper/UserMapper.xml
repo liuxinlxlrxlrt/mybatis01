@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.sxt.domain.mapper.UserMapper">
+
+    <!--处理查询结果的字段和实体类里面属性名不一致的问题-->
+    <resultMap id="BaseResultMap" type="com.sxt.domain.entity.User">
+        <!--id：代表主键-->
+        <id property="id" column="uid" javaType="Integer"/>
+        <result property="name" column="username"/>
+        <result property="birthday" column="birth"/>
+    </resultMap>
+
+    <!--
+    type：当前resultMap最后返回的类型
+    id：当前namespace里面唯一的ID
+    extends：继承父节点
+    -->
+    <resultMap id="myAddressResultMap" type="com.sxt.domain.entity.User" extends="BaseResultMap">
+        <result property="address" column="addr"/>
+    </resultMap>
+
+    <!--定义一个基础的列,可继续引入，不能继承，
+    为什么引入？
+    原因：存在多个查询，采用引入就减少重复代码-->
+    <sql id="BaseColumn">
+        id as uid,name as username,address as addr,birthday as birth
+    </sql>
+
+    <select id="queryAll" resultMap="myAddressResultMap" parameterType="User">
+        select
+          <include refid="BaseColumn"></include>
+        from sys_user
+        <where>
+           <if test="name != null">
+               and name like "%"#{name}"%"
+           </if>
+            <if test="address != null">
+                and address like "%"#{address}"%"
+            </if>
+
+            <choose>
+                <when test="name!=null">
+                    and name like "%"#{name}"%"
+                </when>
+                <when test="address!=null">
+                    and address like "%"#{address}"%"
+                </when>
+                <otherwise>
+
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--修改
+    User user= new User();
+    user.serId(1);
+    user.setName("小明");
+    修改时如果只传一部分值，其他的值就会被更新为null
+    用set结合if就会解决这个问题，按条件去修改对应传入的值
+    -->
+    <update id="updateALL" parameterType="User">
+        update sys_user set name=#{name},address=#{address},birthday=#{birthday} where id=#{id}
+    </update>
+
+    <update id="updateBySelective" parameterType="User">
+        update sys_user
+        <set>
+            <if test="name!=null">
+                name=#{name}
+            </if>
+            <if test="address!=null">
+                address=#{address}
+            </if>
+            <if test="birthday!=null">
+                birthday=#{birthday}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--数组中查询部分数据-->
+    <select id="queryALLInIds" resultType="User" parameterType="Integer[]">
+        select * from sys_user
+        <where>
+            <!--id in(-->
+            <!--<foreach collection="array" item="id"  separator=",">-->
+                <!--#{id}-->
+            <!--</foreach>-->
+            <!--)-->
+            <!--
+            collection：代表数组或者集合
+            item：代表循环的值
+            index：代表循环变量，索引
+            open：循环时字符串的最开始的值
+            separator：循环的分隔符
+            close：循环结束后最佳的字符串
+            -->
+            <foreach collection="array" item="id" open="id in(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

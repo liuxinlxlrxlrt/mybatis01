@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.sxt.domain.mapper.DeptMapper">
+
+    <!--Emp查询dept的第四种写法-->
+    <!--根据部门编号查询部门信息-->
+    <select id="queryDeptById" resultType="Dept">
+        select * from dept where deptid = #{deptid}
+    </select>
+
+    <!--方法一-->
+    <resultMap id="BaseDeptCloumn" type="Dept">
+        <id property="deptid" column="deptid"/>
+        <result property="dname" column="dname"/>
+        <result property="dloc" column="dloc"/>
+    </resultMap>
+
+    <resultMap id="myDeptMap" type="Dept" extends="BaseDeptCloumn">
+        <collection property="emps" javaType="Emp3">
+            <id property="empid" column="empid"/>
+            <result property="ename" column="ename"/>
+            <result property="esex" column="esex"/>
+            <result property="ehiredate" column="ehiredate"/>
+            <result property="esal" column="esal"/>
+        </collection>
+    </resultMap>
+    <!--查询所有部门信息-->
+    <select id="queryAllDept" resultMap="myDeptMap">
+        select * from  dept inner join emp using(deptid);
+    </select>
+
+    <!--方法二:
+    property="emps"：代表Dept实体了的emps属性
+    ofType="Emp3",ofType代表集合中的类型
+    column="deptid"：传到com.sxt.domain.mapper.EmpMapper.queryEmpByDeptId中的参数
+    -->
+    <resultMap id="myDeptMap2" type="Dept" extends="BaseDeptCloumn">
+        <collection property="emps" ofType="Emp3" column="deptid"
+                    select="com.sxt.domain.mapper.EmpMapper.queryEmpByDeptId">
+        </collection>
+    </resultMap>
+
+    <!--查询所有部门信息-->
+    <select id="queryAllDept2" resultMap="myDeptMap2">
+        select * from  dept
+    </select>
+
+</mapper>

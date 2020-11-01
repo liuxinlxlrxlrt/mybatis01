@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.sxt.domain.mapper.EmpMapper">
+
+    <!--方法一-->
+      <!--查询emp-->
+    <select id="queryAllEmp1" resultType="Emp1">
+        <!--第一种写法：内连接（inner join on）
+        如果用t1.*,t2.* ,会出现deptid重复的问题
+        -->
+        <!--select t1.*,t2.dname,t2.dloc from emp t1 inner join dept t2 on(t1.deptid=t2.deptid)-->
+        <!--
+        第二种写法与第一种写法查询的结果集一样
+        有两个要求：表中的两个字段的名称与数据类型必须相同
+        好处：
+        -->
+        select  * from  emp inner join dept using (deptid)
+    </select>
+
+    <!--方法二-->
+    <select id="queryAllEmp2" resultType="com.sxt.domain.vo.EmpVo">
+        select *  from emp inner join dept using(deptid)
+    </select>
+
+
+    <!--方法三-->
+    <resultMap id="BaseEmp" type="Emp3">
+        <id property="empid" column="empid"/>
+        <result property="ename" column="ename"/>
+        <result property="esex" column="esex"/>
+        <result property="ehiredate" column="ehiredate"/>
+        <result property="esal" column="esal"/>
+    </resultMap>
+
+    <resultMap id="myEmp" type="Emp3" extends="BaseEmp">
+        <!--association建立关系
+        property="dept"：指Emp3中的dept属性
+        javaType=：指emp3属性的类型
+        -->
+        <association property="dept" javaType="com.sxt.domain.entity.Dept">
+            <id property="deptid" column="deptid"/>
+            <result property="dname" column="dname"/>
+            <result property="dloc" column="dloc"/>
+        </association>
+    </resultMap>
+    <!--第三种写法-->
+    <select id="queryAllEmp3" resultMap="myEmp">
+        select *  from emp inner join dept using(deptid)
+    </select>
+
+
+    <!--方法四-->
+    <resultMap id="myEmp2" type="Emp3" extends="BaseEmp">
+        <!--association建立关系
+        property="dept"：指Emp3中的dept属性
+        javaType=：指emp3属性的类型
+        column="deptid"：从当期恩结果集里面取出deptid，传给com.sxt.domain.mapper.DeptMapper.queryDeptById
+        -->
+        <association property="dept" column="deptid" select="com.sxt.domain.mapper.DeptMapper.queryDeptById">
+        </association>
+    </resultMap>
+    <!--第四种写法-->
+    <select id="queryAllEmp4" resultMap="myEmp2">
+        select *  from emp inner join dept using(deptid)
+    </select>
+
+    <!--dept查询Emp的第二种写法-->
+    <select id="queryEmpByDeptId" resultType="Emp3">
+        select *  from emp where deptid=#{deptid}
+    </select>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 加载数据库属性文件 -->
+    <properties resource="application.properties"/>
+    <!-- 配置日志输出形式 -->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <!-- 配置字段别名，typeAliases是MyBatis中的别名处理器类 -->
+    <typeAliases>
+        <!--<typeAlias type="com.newsxt.User" alias="user"/>-->
+        <package name="com.sxt.domain.entity"/>
+    </typeAliases>
+    <!--环境配置，连接的数据库，这里使用的是MySQL-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--指定事务管理的类型，这里简单使用Java的JDBC的提交和回滚设置-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--dataSource 指连接源配置，POOLED是JDBC连接对象的数据源连接池的实现-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="Mapper/EmpMapper.xml"/>
+        <mapper resource="Mapper/DeptMapper.xml"/>
+    </mappers>
+</configuration>

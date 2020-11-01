@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.newsxt.UserMapper">
+    <!--
+    id:填写在XxxMapper接口中的方法名，不能重复
+    parameterType:填写参数的类型
+    resultType:填写方法中返回值的类型，不用写全路径，不区分大小写
+    -->
+    <!--添加-->
+    <insert id="add" parameterType="com.newsxt.User">
+        insert into sys_user ( name,address,birthday)values (#{name},#{address},#{birthday})
+    </insert>
+    <!--更新-->
+    <update id="update" parameterType="com.newsxt.User">
+        update sys_user set name=#{name},address=#{address},birthday=#{birthday} where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from sys_user where id=#{value}
+    </delete>
+    <!--查询一个-->
+    <select id="queryById" parameterType="java.lang.Integer" resultType="com.newsxt.User">
+        select * from sys_user where id=#{value}
+    </select>
+    <!--全查询-->
+    <!--
+    1.resultMap：查询结果集与实体属性名不一致
+    2.resultType：指定返回值类型，查询结果集与实体属性名一致
+    3.resultMap和resultType只能使用一个
+    4.resultType="com.newsxt.User"
+    -->
+    <resultMap id="myRsMap" type="com.newsxt.User">
+        <id property="id" column="uid"/>
+        <result property="name" column="username"/>
+        <result property="address" column="addr"/>
+        <result property="birthday" column="birth"/>
+    </resultMap>
+    <select id="queryALL"  resultMap="myRsMap">
+        select id as uid, name as username,address as addr,birthday as birth from sys_user
+    </select>
+
+</mapper>
