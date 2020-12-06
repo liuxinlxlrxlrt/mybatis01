@@ -13,11 +13,11 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/02_mybatisplus_springboot/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/01_mybatisplus_spring/pom.xml" />
         <option value="$PROJECT_DIR$/mybatis_association_table/mybatis_annotation/pom.xml" />
       </set>
     </option>

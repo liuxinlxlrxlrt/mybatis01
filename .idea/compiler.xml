@@ -2,12 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="02_mybatisplus_springboot" />
-        <module name="_01_mybatisplus_spring" />
         <module name="modifiymybatis01" />
         <module name="mybatis_ali_page" />
         <module name="mybatis_annotation" />
@@ -17,6 +16,10 @@
         <module name="mybatisquerylike" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="02_mybatisplus_springboot" target="1.8" />
+      <module name="_01_mybatisplus_spring" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
